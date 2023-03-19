@@ -1,5 +1,7 @@
 package com.uni.covid.vaccination.services;
 
+import java.util.List;
+
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
@@ -15,5 +17,9 @@ public interface UserService {
 	UserResponseDto getUserByEmail(String email);
 
 	UserResponseDto convertToUserResponseDto(UserDto userDto);
+
+	List<UserResponseDto> getUserByRole(String roleName);
+
+	void deleteUserHospitalById(Long id);
 
 }

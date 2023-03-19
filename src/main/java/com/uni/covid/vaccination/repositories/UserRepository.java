@@ -1,5 +1,7 @@
 package com.uni.covid.vaccination.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	boolean existsByEmailIgnoreCase(String email);
 
 	User findByEmailIgnoreCase(String email);
+
+	List<User> findAllByRoleNameIgnoreCase(String roleName);
 
 }

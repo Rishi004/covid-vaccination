@@ -13,4 +13,5 @@ public class Constants {
 	public static final String USER_WRONG_PASSWORD = "Wrong password";
 	public static final String CHANGED_PASSWORD_SUCCESS = "Password changed";
 	public static final String INCORRECT_PASSWORD = "Old password is incorrect";
+	public static final String USER_DELETED_SUCCESS = "User deleted successfully";
 }
