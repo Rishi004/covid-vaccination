@@ -29,4 +29,5 @@ public class Constants {
 	// appointment
 	public static final String APPOINTMENT = "appointment";
 	public static final String APPOINTMENT_ID_NOT_EXISTS = "Appointment id not exists";
+	public static final String APPOINTMENT_USER_ID_NOT_EXISTS = "Particular user id is no exists in Appointments";
 }

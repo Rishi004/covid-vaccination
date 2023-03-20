@@ -48,4 +48,14 @@ public class AppointmentController {
 				appointmentService.getAppointmentById(id), RestApiResponseStatus.OK), null, HttpStatus.OK);
 	}
 
+	@GetMapping(value = EndPointURI.APPOINTMENT_BY_USER_ID)
+	public ResponseEntity<Object> viewAllAppointmentByUserId(@PathVariable Long userId) {
+		if (appointmentService.isUserIdExists(userId)) {
+			return new ResponseEntity<>(new ValidationFailureResponse(Constants.APPOINTMENT_USER_ID_NOT_EXISTS,
+					validationFailureStatusCodes.getAppointmentUserIdNotExist()), HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(new ContentResponse<>(Constants.APPOINTMENT,
+				appointmentService.getAppointmentByUserId(userId), RestApiResponseStatus.OK), null, HttpStatus.OK);
+	}
+
 }

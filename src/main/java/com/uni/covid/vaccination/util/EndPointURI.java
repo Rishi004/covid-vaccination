@@ -25,5 +25,6 @@ public class EndPointURI {
 	public static final String APPOINTMENT = BASE_API_PATH + "appointment";
 	public static final String APPOINTMENT_BY_ID = BASE_API_PATH + "appointment" + SLASH + ID;
 	public static final String APPOINTMENT_SEARCH = BASE_API_PATH + "appointment" + SLASH + SEARCH;
+	public static final String APPOINTMENT_BY_USER_ID = APPOINTMENT + SLASH + "user" + ID;
 
 }

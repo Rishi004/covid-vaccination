@@ -1,5 +1,7 @@
 package com.uni.covid.vaccination.services;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public Appointments getAppointmentById(Long id) {
 		return appointmentRepository.findById(id).get();
+	}
+
+	@Override
+	public boolean isUserIdExists(Long id) {
+		return appointmentRepository.existsByUserId(id);
+	}
+
+	@Override
+	public List<Appointments> getAppointmentByUserId(Long userId) {
+		return appointmentRepository.findAllByUserId(userId);
 	}
 
 }
