@@ -22,4 +22,14 @@ public interface UserService {
 
 	void deleteUserHospitalById(Long id);
 
+	boolean isUserIdExists(Long id);
+
+	UserResponseDto getUserById(Long id);
+
+	void editUser(UserDto userDto);
+
+	List<UserResponseDto> getUserAllUsers();
+
+	boolean isUserEmailExistsNotId(String email, Long id);
+
 }

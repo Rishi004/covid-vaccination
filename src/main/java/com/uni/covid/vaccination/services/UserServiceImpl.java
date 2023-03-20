@@ -76,4 +76,42 @@ public class UserServiceImpl implements UserService {
 		userRepository.deleteById(id);
 	}
 
+	@Override
+	public boolean isUserIdExists(Long id) {
+		return userRepository.existsById(id);
+	}
+
+	@Override
+	public UserResponseDto getUserById(Long id) {
+		UserResponseDto userResponseDto = new UserResponseDto();
+		User user = userRepository.findById(id).get();
+		BeanUtils.copyProperties(user, userResponseDto);
+		return userResponseDto;
+	}
+
+	@Override
+	public void editUser(UserDto userDto) {
+		User user = userRepository.findById(userDto.getId()).get();
+		BeanUtils.copyProperties(userDto, user);
+		userRepository.save(user);
+	}
+
+	@Override
+	public List<UserResponseDto> getUserAllUsers() {
+		List<User> usersList = userRepository.findAll();
+		List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+		for (User user : usersList) {
+			UserResponseDto userResponseDto = new UserResponseDto();
+			BeanUtils.copyProperties(user, userResponseDto);
+			userResponseDtoList.add(userResponseDto);
+		}
+
+		return userResponseDtoList;
+	}
+
+	@Override
+	public boolean isUserEmailExistsNotId(String email, Long id) {
+		return userRepository.existsByEmailAndIdNot(email, id);
+	}
+
 }
