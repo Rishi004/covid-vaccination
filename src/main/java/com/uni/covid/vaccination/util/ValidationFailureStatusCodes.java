@@ -38,4 +38,6 @@ public class ValidationFailureStatusCodes {
 	private String appointmentIdNotExist;
 	@Value("${validation.appointment.appointmentUserIdNotExist}")
 	private String appointmentUserIdNotExist;
+	@Value("${validation.appointment.depended}")
+	private String appointmentIdDepended;
 }

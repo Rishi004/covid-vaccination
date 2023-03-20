@@ -53,4 +53,23 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentRepository.findAllByUserId(userId);
 	}
 
+	@Override
+	public void deleteAppointmentById(Long id) {
+		appointmentRepository.deleteById(id);
+	}
+
+	@Override
+	public void editAppointment(AppointmentDto appointmentDto) {
+		Appointments appointments = appointmentRepository.findById(appointmentDto.getId()).get();
+		BeanUtils.copyProperties(appointmentDto, appointments);
+
+		User hospital = new User();
+		hospital.setId(appointmentDto.getHospitalId());
+		appointments.setHospital(hospital);
+
+		User user = new User();
+		user.setId(appointmentDto.getUserId());
+		appointments.setUser(user);
+	}
+
 }
