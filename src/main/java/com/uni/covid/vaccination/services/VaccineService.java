@@ -7,10 +7,14 @@ import com.uni.covid.vaccination.entities.Vaccine;
 
 public interface VaccineService {
 
-	boolean isVaccineNameExists(String vaccineName, Long hospitalId);
-
 	void saveVaccine(VaccineDto vaccineDto);
 
 	List<Vaccine> getAllVaccine();
+
+	boolean isVaccineIdExists(Long id);
+
+	void deleteVaccineById(Long id);
+
+	void editVaccine(VaccineDto vaccineDto);
 
 }

@@ -4,6 +4,7 @@ public class EndPointURI {
 
 	private static final String BASE_API_PATH = "/api/v1/";
 	private static final String SLASH = "/";
+	private static final String SEARCH = "search";
 	private static final String ID = "{id}";
 	private static final String EMAIL = "{email}";
 	private static final String ROLE = "{roleName}";
@@ -18,4 +19,11 @@ public class EndPointURI {
 
 	// vaccine
 	public static final String VACCINE = BASE_API_PATH + "vaccine";
+	public static final String VACCINE_BY_ID = VACCINE + SLASH + ID;
+
+	// appointment
+	public static final String APPOINTMENT = BASE_API_PATH + "appointment";
+	public static final String APPOINTMENT_BY_ID = BASE_API_PATH + "appointment" + SLASH + ID;
+	public static final String APPOINTMENT_SEARCH = BASE_API_PATH + "appointment" + SLASH + SEARCH;
+
 }

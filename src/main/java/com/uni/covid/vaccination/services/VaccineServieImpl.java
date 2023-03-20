@@ -18,11 +18,6 @@ public class VaccineServieImpl implements VaccineService {
 	private VaccineRepository vaccineRepository;
 
 	@Override
-	public boolean isVaccineNameExists(String vaccineName, Long hospitalId) {
-		return vaccineRepository.existsByVaccineNameAndHospitalId(vaccineName, hospitalId);
-	}
-
-	@Override
 	public void saveVaccine(VaccineDto vaccineDto) {
 		User user = new User();
 		Vaccine vaccine = new Vaccine();
@@ -35,6 +30,27 @@ public class VaccineServieImpl implements VaccineService {
 	@Override
 	public List<Vaccine> getAllVaccine() {
 		return vaccineRepository.findAll();
+	}
+
+	@Override
+	public boolean isVaccineIdExists(Long id) {
+		return vaccineRepository.existsById(id);
+	}
+
+	@Override
+	public void deleteVaccineById(Long id) {
+		vaccineRepository.deleteById(id);
+	}
+
+	@Override
+	public void editVaccine(VaccineDto vaccineDto) {
+		User hospital = new User();
+		Vaccine vaccine = vaccineRepository.findById(vaccineDto.getId()).get();
+		BeanUtils.copyProperties(vaccineDto, vaccine);
+		hospital.setId(vaccineDto.getHospitalId());
+		vaccine.setHospital(hospital);
+		vaccineRepository.save(vaccine);
+
 	}
 
 }

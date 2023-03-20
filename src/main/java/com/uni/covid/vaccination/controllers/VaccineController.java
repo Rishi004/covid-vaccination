@@ -3,10 +3,15 @@ package com.uni.covid.vaccination.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +28,7 @@ import com.uni.covid.vaccination.util.EndPointURI;
 import com.uni.covid.vaccination.util.ValidationFailureStatusCodes;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class VaccineController {
 
 	@Autowired
@@ -40,10 +46,6 @@ public class VaccineController {
 			return new ResponseEntity<>(new ValidationFailureResponse(Constants.USER_ID_NOT_EXISTS,
 					validationFailureStatusCodes.getUserIdNotExists()), HttpStatus.BAD_REQUEST);
 		}
-		if (vaccineService.isVaccineNameExists(vaccineDto.getVaccineName(), vaccineDto.getHospitalId())) {
-			return new ResponseEntity<>(new ValidationFailureResponse(Constants.VACCINE_NAME_ALREADY_EXISTS,
-					validationFailureStatusCodes.getVaccineNameAlreadyExist()), HttpStatus.BAD_REQUEST);
-		}
 		vaccineService.saveVaccine(vaccineDto);
 		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.ADD_VACCINE_SUCCESS),
 				HttpStatus.OK);
@@ -54,5 +56,32 @@ public class VaccineController {
 		List<Vaccine> vaccineList = vaccineService.getAllVaccine();
 		return new ResponseEntity<>(new ContentResponse<>(Constants.VACCINE, vaccineList, RestApiResponseStatus.OK),
 				null, HttpStatus.OK);
+	}
+
+	@DeleteMapping(value = EndPointURI.VACCINE_BY_ID)
+	public ResponseEntity<Object> deleteVaccineById(@PathVariable Long id) {
+		if (!vaccineService.isVaccineIdExists(id)) {
+			return new ResponseEntity<>(new ValidationFailureResponse(Constants.VACCINE_ID_NOT_EXISTS,
+					validationFailureStatusCodes.getVaccineIdNotExist()), HttpStatus.BAD_REQUEST);
+		}
+		try {
+			vaccineService.deleteVaccineById(id);
+			return new ResponseEntity<>(
+					new BasicResponse<>(RestApiResponseStatus.OK, Constants.VACCINE_DELETED_SUCCESS), HttpStatus.OK);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>(new ValidationFailureResponse(Constants.VACCINE_DEPEND,
+					validationFailureStatusCodes.getVaccineIdDepended()), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PutMapping(value = EndPointURI.VACCINE)
+	public ResponseEntity<Object> editUser(@RequestBody VaccineDto vaccineDto) {
+		if (!vaccineService.isVaccineIdExists(vaccineDto.getId())) {
+			return new ResponseEntity<>(new ValidationFailureResponse(Constants.VACCINE_ID_NOT_EXISTS,
+					validationFailureStatusCodes.getVaccineIdNotExist()), HttpStatus.BAD_REQUEST);
+		}
+		vaccineService.editVaccine(vaccineDto);
+		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.VACCINE_UPDATED_SUCCESS),
+				HttpStatus.OK);
 	}
 }

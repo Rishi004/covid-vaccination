@@ -30,4 +30,10 @@ public class ValidationFailureStatusCodes {
 	private String vaccineNameAlreadyExist;
 	@Value("${validation.vaccine.vaccineIdNotExist}")
 	private String vaccineIdNotExist;
+	@Value("${validation.vaccine.depended}")
+	private String vaccineIdDepended;
+
+	// appointment
+	@Value("${validation.appointment.appointmentIdNotExist}")
+	private String appointmentIdNotExist;
 }
