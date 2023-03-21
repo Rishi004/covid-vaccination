@@ -2,10 +2,13 @@ package com.uni.covid.vaccination.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
+import com.uni.covid.vaccination.responses.PaginatedContentResponse.Pagination;
 
 public interface UserService {
 
@@ -38,5 +41,7 @@ public interface UserService {
 	boolean isPasswordSame(ChangePasswordDto changePasswordDto);
 
 	void changePassword(ChangePasswordDto changePasswordDto);
+
+	List<UserResponseDto> searchUser(String name, String role, Pageable pageable, Pagination pagination);
 
 }

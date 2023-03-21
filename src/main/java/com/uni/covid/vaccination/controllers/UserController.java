@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uni.covid.vaccination.dto.ChangePasswordDto;
@@ -22,6 +26,8 @@ import com.uni.covid.vaccination.dto.UserResponseDto;
 import com.uni.covid.vaccination.enums.RestApiResponseStatus;
 import com.uni.covid.vaccination.responses.BasicResponse;
 import com.uni.covid.vaccination.responses.ContentResponse;
+import com.uni.covid.vaccination.responses.PaginatedContentResponse;
+import com.uni.covid.vaccination.responses.PaginatedContentResponse.Pagination;
 import com.uni.covid.vaccination.responses.ValidationFailureResponse;
 import com.uni.covid.vaccination.services.UserService;
 import com.uni.covid.vaccination.util.Constants;
@@ -150,6 +156,19 @@ public class UserController {
 		userService.changePassword(changePasswordDto);
 		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.CHANGED_PASSWORD_SUCCESS),
 				HttpStatus.OK);
+	}
+
+	@GetMapping(value = EndPointURI.USER_SEARCH)
+	public ResponseEntity<Object> searchUserByName(@RequestParam(name = "page") int page,
+			@RequestParam(name = "size") int size, @RequestParam(name = "name") String name,
+			@RequestParam(name = "role") String role) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+		Pagination pagination = new Pagination(page, size, 0, 0L);
+		List<UserResponseDto> usersList = userService.searchUser(name, role, pageable, pagination);
+		return new ResponseEntity<>(
+				new PaginatedContentResponse<>(Constants.APPOINTMENT, usersList, RestApiResponseStatus.OK, pagination),
+				HttpStatus.OK);
+
 	}
 
 }

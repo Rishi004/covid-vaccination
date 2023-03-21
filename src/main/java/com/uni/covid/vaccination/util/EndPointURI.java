@@ -16,6 +16,7 @@ public class EndPointURI {
 	public static final String CHANGE_PASSWORD = BASE_API_PATH + "changePassword";
 	public static final String USER_BY_EMAIL = USER + SLASH + "mail" + SLASH + EMAIL;
 	public static final String USER_BY_ROLE = USER + SLASH + "role" + SLASH + ROLE;
+	public static final String USER_SEARCH = USER + SLASH + SEARCH;
 
 	// vaccine
 	public static final String VACCINE = BASE_API_PATH + "vaccine";

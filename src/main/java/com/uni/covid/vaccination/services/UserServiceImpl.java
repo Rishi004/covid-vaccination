@@ -5,15 +5,20 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.querydsl.core.BooleanBuilder;
 import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
+import com.uni.covid.vaccination.entities.QUser;
 import com.uni.covid.vaccination.entities.User;
 import com.uni.covid.vaccination.repositories.UserRepository;
+import com.uni.covid.vaccination.responses.PaginatedContentResponse.Pagination;
+import com.uni.covid.vaccination.util.Utils;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -134,6 +139,36 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(bCryptPasswordEncoder.encode(changePasswordDto.getNewPassword()));
 		userRepository.save(user);
 
+	}
+
+	@Override
+	public List<UserResponseDto> searchUser(String name, String role, Pageable pageable, Pagination pagination) {
+
+		Long totalRecords = 0L;
+
+		BooleanBuilder booleanBuilder = new BooleanBuilder();
+
+		if (Utils.isNotNullAndEmpty(role)) {
+			booleanBuilder.and(QUser.user.roleName.containsIgnoreCase(role));
+		}
+
+		if (Utils.isNotNullAndEmpty(name)) {
+			booleanBuilder.and(QUser.user.firstName.containsIgnoreCase(name));
+		}
+
+		totalRecords = userRepository.count(booleanBuilder);
+		int totalpage = (int) Math.ceil(((double) totalRecords / (double) pagination.getPageSize()));
+		pagination.setTotalRecords(totalRecords);
+		pagination.setTotalPages(totalpage);
+
+		List<User> usersList = userRepository.findAll(booleanBuilder, pageable).toList();
+		List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+		for (User user : usersList) {
+			UserResponseDto userResponseDto = new UserResponseDto();
+			BeanUtils.copyProperties(user, userResponseDto);
+			userResponseDtoList.add(userResponseDto);
+		}
+		return userResponseDtoList;
 	}
 
 }
