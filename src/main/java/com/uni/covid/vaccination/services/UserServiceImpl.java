@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
@@ -117,6 +118,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isFirstNameExists(String firstName) {
 		return userRepository.existsByFirstName(firstName);
+	}
+
+	@Override
+	public boolean isPasswordSame(ChangePasswordDto changePasswordDto) {
+		User user = userRepository.findById(changePasswordDto.getId()).get();
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		return bCryptPasswordEncoder.matches(changePasswordDto.getOldPassword(), user.getPassword());
+	}
+
+	@Override
+	public void changePassword(ChangePasswordDto changePasswordDto) {
+		User user = userRepository.findById(changePasswordDto.getId()).get();
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		user.setPassword(bCryptPasswordEncoder.encode(changePasswordDto.getNewPassword()));
+		userRepository.save(user);
+
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
@@ -137,6 +138,17 @@ public class UserController {
 		}
 		userService.editUser(userDto);
 		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.USER_UPDATED_SUCCESS),
+				HttpStatus.OK);
+	}
+
+	@PutMapping(value = EndPointURI.CHANGE_PASSWORD)
+	public ResponseEntity<Object> changeUserPassword(@RequestBody ChangePasswordDto changePasswordDto) {
+		if (!userService.isPasswordSame(changePasswordDto)) {
+			return new ResponseEntity<>(new ValidationFailureResponse(Constants.INCORRECT_PASSWORD,
+					validationFailureStatusCodes.getUserWrongPassword()), HttpStatus.BAD_REQUEST);
+		}
+		userService.changePassword(changePasswordDto);
+		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.CHANGED_PASSWORD_SUCCESS),
 				HttpStatus.OK);
 	}
 

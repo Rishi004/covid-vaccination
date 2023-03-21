@@ -2,6 +2,7 @@ package com.uni.covid.vaccination.services;
 
 import java.util.List;
 
+import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
@@ -33,5 +34,9 @@ public interface UserService {
 	boolean isUserEmailExistsNotId(String email, Long id);
 
 	boolean isFirstNameExists(String firstName);
+
+	boolean isPasswordSame(ChangePasswordDto changePasswordDto);
+
+	void changePassword(ChangePasswordDto changePasswordDto);
 
 }

@@ -24,4 +24,6 @@ public interface AppointmentService {
 
 	List<Appointments> searchAppointment(String userId, String hospital, Pageable pageable, Pagination pagination);
 
+	void appointmentReminderMailSender();
+
 }

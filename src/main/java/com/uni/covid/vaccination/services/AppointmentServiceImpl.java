@@ -1,10 +1,12 @@
 package com.uni.covid.vaccination.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
@@ -21,6 +23,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
+
+	@Autowired
+	private MailNotificationsServices mailNotificationsServices;
 
 	@Override
 	public void saveAppointment(AppointmentDto appointmentDto) {
@@ -96,6 +101,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 		pagination.setTotalRecords(totalRecords);
 		pagination.setTotalPages(totalpage);
 		return appointmentRepository.findAll(booleanBuilder, pageable).toList();
+	}
+
+	@Override
+	@Scheduled(cron = "0 0 12 * * ?")
+	public void appointmentReminderMailSender() {
+		List<Appointments> appointmentsList = appointmentRepository.findAll();
+		Date currentDate = new Date();
+
+		for (Appointments appointments : appointmentsList) {
+			long differenceInMillis = appointments.getAppointmentDate().getTime() - currentDate.getTime();
+			long differentInDays = (int) Math.floor(differenceInMillis / (24 * 60 * 60 * 1000));
+			if (differentInDays <= 1) {
+				mailNotificationsServices.appointmentReminderMail(appointments);
+			}
+		}
 	}
 
 }
