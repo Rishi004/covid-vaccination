@@ -1,5 +1,6 @@
 package com.uni.covid.vaccination.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.uni.covid.vaccination.dto.AppointmentDto;
+import com.uni.covid.vaccination.dto.MyVaccineDto;
 import com.uni.covid.vaccination.entities.Appointments;
 import com.uni.covid.vaccination.entities.QAppointments;
 import com.uni.covid.vaccination.entities.User;
@@ -116,6 +118,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 				mailNotificationsServices.appointmentReminderMail(appointments);
 			}
 		}
+	}
+
+	@Override
+	public List<MyVaccineDto> myVaccine(Long id) {
+		List<MyVaccineDto> myVaccineDtoList = new ArrayList<>();
+		List<Object[]> resultList = appointmentRepository.findVaccineDosesByVaccineName();
+		for (int i = 0; i < resultList.size(); i++) {
+			MyVaccineDto myVaccineDto = new MyVaccineDto();
+
+			myVaccineDto.setAppointmentId((Long) resultList.get(i)[0]);
+			myVaccineDto.setVaccineDate((java.sql.Date) resultList.get(i)[1]);
+			myVaccineDto.setVaccineType((String) resultList.get(i)[2]);
+			myVaccineDto.setDoses((long) resultList.get(i)[3]);
+			myVaccineDto.setHospital((User) resultList.get(i)[4]);
+
+			myVaccineDtoList.add(myVaccineDto);
+		}
+		return myVaccineDtoList;
 	}
 
 }

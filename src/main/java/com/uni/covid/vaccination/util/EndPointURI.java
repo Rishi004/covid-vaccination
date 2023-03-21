@@ -21,10 +21,12 @@ public class EndPointURI {
 	// vaccine
 	public static final String VACCINE = BASE_API_PATH + "vaccine";
 	public static final String VACCINE_BY_ID = VACCINE + SLASH + ID;
+	public static final String VACCINE_SEARCH = VACCINE + SLASH + SEARCH;
 
 	// appointment
 	public static final String APPOINTMENT = BASE_API_PATH + "appointment";
 	public static final String APPOINTMENT_BY_ID = APPOINTMENT + SLASH + ID;
 	public static final String APPOINTMENT_SEARCH = APPOINTMENT + SLASH + SEARCH;
+	public static final String APPOINTMENT_BY_USER_ID = APPOINTMENT + SLASH + "user" + SLASH + ID;
 
 }

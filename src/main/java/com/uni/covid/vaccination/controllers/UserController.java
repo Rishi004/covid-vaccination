@@ -166,7 +166,7 @@ public class UserController {
 		Pagination pagination = new Pagination(page, size, 0, 0L);
 		List<UserResponseDto> usersList = userService.searchUser(name, role, pageable, pagination);
 		return new ResponseEntity<>(
-				new PaginatedContentResponse<>(Constants.APPOINTMENT, usersList, RestApiResponseStatus.OK, pagination),
+				new PaginatedContentResponse<>(Constants.USER, usersList, RestApiResponseStatus.OK, pagination),
 				HttpStatus.OK);
 
 	}

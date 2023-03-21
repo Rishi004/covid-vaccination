@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.uni.covid.vaccination.dto.VaccineDto;
@@ -20,6 +24,8 @@ import com.uni.covid.vaccination.entities.Vaccine;
 import com.uni.covid.vaccination.enums.RestApiResponseStatus;
 import com.uni.covid.vaccination.responses.BasicResponse;
 import com.uni.covid.vaccination.responses.ContentResponse;
+import com.uni.covid.vaccination.responses.PaginatedContentResponse;
+import com.uni.covid.vaccination.responses.PaginatedContentResponse.Pagination;
 import com.uni.covid.vaccination.responses.ValidationFailureResponse;
 import com.uni.covid.vaccination.services.UserService;
 import com.uni.covid.vaccination.services.VaccineService;
@@ -73,7 +79,7 @@ public class VaccineController {
 					validationFailureStatusCodes.getVaccineIdDepended()), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PutMapping(value = EndPointURI.VACCINE)
 	public ResponseEntity<Object> editUser(@RequestBody VaccineDto vaccineDto) {
 		if (!vaccineService.isVaccineIdExists(vaccineDto.getId())) {
@@ -83,5 +89,17 @@ public class VaccineController {
 		vaccineService.editVaccine(vaccineDto);
 		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.VACCINE_UPDATED_SUCCESS),
 				HttpStatus.OK);
+	}
+
+	@GetMapping(value = EndPointURI.VACCINE_SEARCH)
+	public ResponseEntity<Object> searchVaccineByName(@RequestParam(name = "page") int page,
+			@RequestParam(name = "size") int size, @RequestParam(name = "name") String name) {
+		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+		Pagination pagination = new Pagination(page, size, 0, 0L);
+		List<Vaccine> vaccineList = vaccineService.searchVaccine(name, pageable, pagination);
+		return new ResponseEntity<>(
+				new PaginatedContentResponse<>(Constants.VACCINE, vaccineList, RestApiResponseStatus.OK, pagination),
+				HttpStatus.OK);
+
 	}
 }
