@@ -2,6 +2,7 @@ package com.uni.covid.vaccination.responses;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import com.uni.covid.vaccination.enums.RestApiResponseStatus;
 
 public class ContentResponse<T> extends ApiResponse {

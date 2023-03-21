@@ -43,6 +43,10 @@ public class UserController {
 			return new ResponseEntity<>(new ValidationFailureResponse(Constants.USER_MAIL_ALREADY_EXISTS,
 					validationFailureStatusCodes.getUserMailAlreadyExists()), HttpStatus.BAD_REQUEST);
 		}
+		if (userService.isFirstNameExists(userDto.getFirstName())) {
+			return new ResponseEntity<>(new ValidationFailureResponse(Constants.NAME_ALREADY_EXISTS,
+					validationFailureStatusCodes.getNameAlreadyExist()), HttpStatus.BAD_REQUEST);
+		}
 		userService.saveUser(userDto);
 		UserResponseDto userResponseDto = userService.convertToUserResponseDto(userDto);
 		return new ResponseEntity<>(new ContentResponse<>(Constants.USER, userResponseDto, RestApiResponseStatus.OK),

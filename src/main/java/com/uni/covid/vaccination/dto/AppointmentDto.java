@@ -10,7 +10,7 @@ public class AppointmentDto {
 	private Long id;
 	private Long hospitalId;
 	private Long userId;
-	private String vaccinationType;
+	private String vaccineType;
 	private Date appointmentDate;
 	private Time appointmentTime;
 }

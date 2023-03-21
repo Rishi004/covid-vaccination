@@ -24,6 +24,8 @@ public class ValidationFailureStatusCodes {
 	private String userWrongPassword;
 	@Value("${validation.user.userIdNotExist}")
 	private String userIdNotExists;
+	@Value("${validation.user.nameAlreadyExist}")
+	private String nameAlreadyExist;
 
 	// vaccine
 	@Value("${validation.vaccine.nameAlreadyExist}")

@@ -32,4 +32,6 @@ public interface UserService {
 
 	boolean isUserEmailExistsNotId(String email, Long id);
 
+	boolean isFirstNameExists(String firstName);
+
 }

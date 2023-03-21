@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.uni.covid.vaccination.dto.UserDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
@@ -112,6 +112,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean isUserEmailExistsNotId(String email, Long id) {
 		return userRepository.existsByEmailAndIdNot(email, id);
+	}
+
+	@Override
+	public boolean isFirstNameExists(String firstName) {
+		return userRepository.existsByFirstName(firstName);
 	}
 
 }

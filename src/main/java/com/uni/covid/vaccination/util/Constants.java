@@ -7,6 +7,7 @@ public class Constants {
 
 	// user
 	public static final String USER = "user";
+	public static final String NAME_ALREADY_EXISTS = "Name already exists";
 	public static final String USER_MAIL_ALREADY_EXISTS = "User mail already exists";
 	public static final String USER_MAIL_NOT_EXISTS = "User mail not exists";
 	public static final String USER_ID_NOT_EXISTS = "User id not exists";
@@ -31,6 +32,7 @@ public class Constants {
 	public static final String APPOINTMENT_ID_NOT_EXISTS = "Appointment id not exists";
 	public static final String APPOINTMENT_USER_ID_NOT_EXISTS = "Particular user id is no exists in Appointments";
 	public static final String APPOINTMENT_DELETED_SUCCESS = "Appointment deleted successfully";
+	public static final String APPOINTMENT_ADDED_SUCCESS = "Appointment added successfully";
 	public static final String APPOINTMENT_ID_DEPEND = "Appointment id depended";
 	public static final String APPOINTMENT_UPDATED_SUCCESS = "Appointment updated successfully";
 }
