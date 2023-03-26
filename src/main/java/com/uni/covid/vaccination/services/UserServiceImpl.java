@@ -99,6 +99,9 @@ public class UserServiceImpl implements UserService {
 	public void editUser(UserDto userDto) {
 		User user = userRepository.findById(userDto.getId()).get();
 		BeanUtils.copyProperties(userDto, user);
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		if (user.getPassword() != null)
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 	}
 
@@ -107,9 +110,11 @@ public class UserServiceImpl implements UserService {
 		List<User> usersList = userRepository.findAll();
 		List<UserResponseDto> userResponseDtoList = new ArrayList<>();
 		for (User user : usersList) {
-			UserResponseDto userResponseDto = new UserResponseDto();
-			BeanUtils.copyProperties(user, userResponseDto);
-			userResponseDtoList.add(userResponseDto);
+			if (user.getId() != 1) {
+				UserResponseDto userResponseDto = new UserResponseDto();
+				BeanUtils.copyProperties(user, userResponseDto);
+				userResponseDtoList.add(userResponseDto);
+			}
 		}
 
 		return userResponseDtoList;

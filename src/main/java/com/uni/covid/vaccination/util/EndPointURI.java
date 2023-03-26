@@ -13,7 +13,7 @@ public class EndPointURI {
 	public static final String USER = BASE_API_PATH + "user";
 	public static final String USER_BY_ID = USER + SLASH + ID;
 	public static final String USER_REGISTER = USER + SLASH + "register";
-	public static final String CHANGE_PASSWORD = BASE_API_PATH + "changePassword";
+	public static final String CHANGE_PASSWORD = USER + SLASH + "changePassword";
 	public static final String USER_BY_EMAIL = USER + SLASH + "mail" + SLASH + EMAIL;
 	public static final String USER_BY_ROLE = USER + SLASH + "role" + SLASH + ROLE;
 	public static final String USER_SEARCH = USER + SLASH + SEARCH;
