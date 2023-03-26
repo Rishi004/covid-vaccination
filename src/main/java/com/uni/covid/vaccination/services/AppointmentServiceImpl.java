@@ -41,6 +41,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		User user = new User();
 		user.setId(appointmentDto.getUserId());
 		appointments.setUser(user);
+		appointments.setStatus(appointmentDto.getStatus());
 
 		appointmentRepository.save(appointments);
 	}
@@ -77,6 +78,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		User user = new User();
 		user.setId(appointmentDto.getUserId());
 		appointments.setUser(user);
+		appointments.setStatus(appointmentDto.getStatus());
 
 		appointmentRepository.save(appointments);
 	}

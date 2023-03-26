@@ -13,4 +13,5 @@ public class AppointmentDto {
 	private String vaccineType;
 	private Date appointmentDate;
 	private Time appointmentTime;
+	private String status;
 }
