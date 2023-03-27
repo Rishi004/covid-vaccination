@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
+import com.uni.covid.vaccination.dto.UserEditDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
 import com.uni.covid.vaccination.responses.PaginatedContentResponse.Pagination;
@@ -30,7 +31,7 @@ public interface UserService {
 
 	UserResponseDto getUserById(Long id);
 
-	void editUser(UserDto userDto);
+	void editUser(UserEditDto userEditDto);
 
 	List<UserResponseDto> getUserAllUsers();
 

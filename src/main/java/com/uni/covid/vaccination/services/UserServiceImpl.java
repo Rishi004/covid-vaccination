@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.querydsl.core.BooleanBuilder;
 import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
+import com.uni.covid.vaccination.dto.UserEditDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
 import com.uni.covid.vaccination.entities.QUser;
@@ -96,12 +97,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void editUser(UserDto userDto) {
-		User user = userRepository.findById(userDto.getId()).get();
-		BeanUtils.copyProperties(userDto, user);
-		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		if (user.getPassword() != null)
-			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	public void editUser(UserEditDto userEditDto) {
+		User user = userRepository.findById(userEditDto.getId()).get();
+		BeanUtils.copyProperties(userEditDto, user);
 		userRepository.save(user);
 	}
 

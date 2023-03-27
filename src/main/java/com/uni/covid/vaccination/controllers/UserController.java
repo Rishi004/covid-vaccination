@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.uni.covid.vaccination.dto.ChangePasswordDto;
 import com.uni.covid.vaccination.dto.UserDto;
+import com.uni.covid.vaccination.dto.UserEditDto;
 import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
 import com.uni.covid.vaccination.enums.RestApiResponseStatus;
@@ -133,16 +134,16 @@ public class UserController {
 	}
 
 	@PutMapping(value = EndPointURI.USER)
-	public ResponseEntity<Object> editUser(@RequestBody UserDto userDto) {
-		if (!userService.isUserIdExists(userDto.getId())) {
+	public ResponseEntity<Object> editUser(@RequestBody UserEditDto userEditDto) {
+		if (!userService.isUserIdExists(userEditDto.getId())) {
 			return new ResponseEntity<>(new ValidationFailureResponse(Constants.USER_ID_NOT_EXISTS,
 					validationFailureStatusCodes.getUserIdNotExists()), HttpStatus.BAD_REQUEST);
 		}
-		if (userService.isUserEmailExistsNotId(userDto.getEmail(), userDto.getId())) {
+		if (userService.isUserEmailExistsNotId(userEditDto.getEmail(), userEditDto.getId())) {
 			return new ResponseEntity<>(new ValidationFailureResponse(Constants.USER_MAIL_ALREADY_EXISTS,
 					validationFailureStatusCodes.getUserIdNotExists()), HttpStatus.BAD_REQUEST);
 		}
-		userService.editUser(userDto);
+		userService.editUser(userEditDto);
 		return new ResponseEntity<>(new BasicResponse<>(RestApiResponseStatus.OK, Constants.USER_UPDATED_SUCCESS),
 				HttpStatus.OK);
 	}
