@@ -1,12 +1,16 @@
 package com.uni.covid.vaccination.entities;
 
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,4 +52,7 @@ public class User {
 	private Date createdAt;
 	@UpdateTimestamp
 	private Date updatedAt;
+	
+//	@OneToMany(targetEntity = Vaccine.class, mappedBy = "hospital", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	private List<Vaccine> vaccines;
 }

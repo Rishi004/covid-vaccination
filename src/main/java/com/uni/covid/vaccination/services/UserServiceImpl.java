@@ -17,7 +17,9 @@ import com.uni.covid.vaccination.dto.UserLoginDto;
 import com.uni.covid.vaccination.dto.UserResponseDto;
 import com.uni.covid.vaccination.entities.QUser;
 import com.uni.covid.vaccination.entities.User;
+import com.uni.covid.vaccination.entities.Vaccine;
 import com.uni.covid.vaccination.repositories.UserRepository;
+import com.uni.covid.vaccination.repositories.VaccineRepository;
 import com.uni.covid.vaccination.responses.PaginatedContentResponse.Pagination;
 import com.uni.covid.vaccination.util.Utils;
 
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private VaccineRepository vaccineRepository;
 
 	@Override
 	public boolean isUserMailExists(String email) {
@@ -169,6 +174,12 @@ public class UserServiceImpl implements UserService {
 		for (User user : usersList) {
 			UserResponseDto userResponseDto = new UserResponseDto();
 			BeanUtils.copyProperties(user, userResponseDto);
+			List<Vaccine> vaccineList = vaccineRepository.findAllByHospitalId(user.getId());
+			List<Vaccine> vaccineListFinal = new ArrayList<>();
+			for (Vaccine vaccine : vaccineList) {
+				if (vaccine.getVaccineStatus().equals("AVAILABLE")) vaccineListFinal.add(vaccine);
+			}
+			userResponseDto.setVaccines(vaccineListFinal);
 			userResponseDtoList.add(userResponseDto);
 		}
 		return userResponseDtoList;

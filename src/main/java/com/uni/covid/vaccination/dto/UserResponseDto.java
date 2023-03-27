@@ -1,5 +1,9 @@
 package com.uni.covid.vaccination.dto;
 
+import java.util.List;
+
+import com.uni.covid.vaccination.entities.Vaccine;
+
 import lombok.Data;
 
 @Data
@@ -14,4 +18,5 @@ public class UserResponseDto {
 	private int age;
 	private String address;
 	private String roleName;
+	private List<Vaccine> vaccines;
 }
