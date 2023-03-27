@@ -125,7 +125,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public List<MyVaccineDto> myVaccine(Long id) {
 		List<MyVaccineDto> myVaccineDtoList = new ArrayList<>();
-		List<Object[]> resultList = appointmentRepository.findVaccineDosesByVaccineName();
+		List<Object[]> resultList = appointmentRepository.findVaccineDosesByVaccineName(id);
 		for (int i = 0; i < resultList.size(); i++) {
 			MyVaccineDto myVaccineDto = new MyVaccineDto();
 
