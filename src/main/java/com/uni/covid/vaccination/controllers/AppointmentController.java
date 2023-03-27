@@ -103,11 +103,6 @@ public class AppointmentController {
 
 	@GetMapping(value = EndPointURI.APPOINTMENT_BY_USER_ID)
 	public ResponseEntity<Object> viewAppointmentByUserId(@PathVariable Long id) {
-		if (!appointmentService.isIdExists(id)) {
-			return new ResponseEntity<>(new ValidationFailureResponse(Constants.APPOINTMENT_ID_NOT_EXISTS,
-					validationFailureStatusCodes.getAppointmentIdNotExist()), HttpStatus.BAD_REQUEST);
-		}
-//		List<MyVaccineDto> myVaccineDtoList = appointmentService.myVaccine(id);
 		return new ResponseEntity<>(
 				new ContentResponse<>(Constants.APPOINTMENT, appointmentService.myVaccine(id), RestApiResponseStatus.OK), null,
 				HttpStatus.OK);
