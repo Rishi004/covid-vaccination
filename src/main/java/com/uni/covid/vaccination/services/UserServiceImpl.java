@@ -65,8 +65,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserResponseDto convertToUserResponseDto(UserDto userDto) {
+		User user = userRepository.findByEmailIgnoreCase(userDto.getEmail());
 		UserResponseDto userResponseDto = new UserResponseDto();
-		BeanUtils.copyProperties(userDto, userResponseDto);
+		BeanUtils.copyProperties(user, userResponseDto);
 		return userResponseDto;
 	}
 
