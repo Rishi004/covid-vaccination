@@ -20,6 +20,6 @@ public interface VaccineService {
 
 	void editVaccine(VaccineDto vaccineDto);
 
-	List<Vaccine> searchVaccine(String name, Pageable pageable, Pagination pagination);
+	List<Vaccine> searchVaccine(String name, String hospitalId, Pageable pageable, Pagination pagination);
 
 }

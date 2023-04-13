@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.uni.covid.vaccination.dto.VaccineDto;
+import com.uni.covid.vaccination.entities.QAppointments;
 import com.uni.covid.vaccination.entities.QVaccine;
 import com.uni.covid.vaccination.entities.User;
 import com.uni.covid.vaccination.entities.Vaccine;
@@ -59,10 +60,15 @@ public class VaccineServieImpl implements VaccineService {
 	}
 
 	@Override
-	public List<Vaccine> searchVaccine(String name, Pageable pageable, Pagination pagination) {
+	public List<Vaccine> searchVaccine(String name, String hospitalId, Pageable pageable, Pagination pagination) {
 		Long totalRecords = 0L;
 
 		BooleanBuilder booleanBuilder = new BooleanBuilder();
+		
+		if (Utils.isNotNullAndEmpty(hospitalId)) {
+			double id = Double.valueOf(hospitalId);
+			booleanBuilder.and(QVaccine.vaccine.hospital.id.eq((long) id));
+		}
 
 		if (Utils.isNotNullAndEmpty(name)) {
 			booleanBuilder.and(QVaccine.vaccine.vaccineName.containsIgnoreCase(name));

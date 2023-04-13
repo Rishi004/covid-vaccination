@@ -93,10 +93,10 @@ public class VaccineController {
 
 	@GetMapping(value = EndPointURI.VACCINE_SEARCH)
 	public ResponseEntity<Object> searchVaccineByName(@RequestParam(name = "page") int page,
-			@RequestParam(name = "size") int size, @RequestParam(name = "name") String name) {
+			@RequestParam(name = "size") int size, @RequestParam(name = "name") String name, @RequestParam(name = "hospitalId") String hospitalId) {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 		Pagination pagination = new Pagination(page, size, 0, 0L);
-		List<Vaccine> vaccineList = vaccineService.searchVaccine(name, pageable, pagination);
+		List<Vaccine> vaccineList = vaccineService.searchVaccine(name, hospitalId, pageable, pagination);
 		return new ResponseEntity<>(
 				new PaginatedContentResponse<>(Constants.VACCINE, vaccineList, RestApiResponseStatus.OK, pagination),
 				HttpStatus.OK);
