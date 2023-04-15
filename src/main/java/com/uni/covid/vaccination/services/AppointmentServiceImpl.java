@@ -92,8 +92,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 		BooleanBuilder booleanBuilder = new BooleanBuilder();
 
 		if (Utils.isNotNullAndEmpty(userId)) {
-			double id = Double.valueOf(userId);
-			booleanBuilder.and(QAppointments.appointments.user.id.eq((long) id));
+		    double id = Double.valueOf(userId);
+		    booleanBuilder.and(
+		        QAppointments.appointments.user.id.eq((long) id)
+		        .or(QAppointments.appointments.hospital.id.eq((long) id))
+		    );
 		}
 
 		if (Utils.isNotNullAndEmpty(hospital)) {
