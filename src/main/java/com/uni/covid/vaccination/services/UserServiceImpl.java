@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
 			List<Vaccine> vaccineList = vaccineRepository.findAllByHospitalId(user.getId());
 			List<Vaccine> vaccineListFinal = new ArrayList<>();
 			for (Vaccine vaccine : vaccineList) {
-				if (vaccine.getVaccineStatus().equals("AVAILABLE")) vaccineListFinal.add(vaccine);
+				if (vaccine.getVaccineStatus().toUpperCase().equals("AVAILABLE")) vaccineListFinal.add(vaccine);
 			}
 			userResponseDto.setVaccines(vaccineListFinal);
 			userResponseDtoList.add(userResponseDto);
