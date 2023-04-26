@@ -10,13 +10,13 @@ jobs:
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
       - image: cimg/mysql:8.0
         auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+          username: rishi004
+          password: V$Rishi35686650  # context / project UI env-var reference
         environment:
-          MYSQL_ROOT_PASSWORD: rootpw
-          MYSQL_DATABASE: test_db
-          MYSQL_USER: user
-          MYSQL_PASSWORD: passw0rd
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: covid-vaccination
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
 
     steps:
       - checkout
@@ -35,8 +35,8 @@ jobs:
           name: Install MySQL CLI; Import dummy data; run an example query
           command: |
             sudo apt-get install default-mysql-client
-            mysql -h 127.0.0.1 -u user -ppassw0rd test_db < sql-data/dummy.sql
-            mysql -h 127.0.0.1 -u user -ppassw0rd --execute="SELECT * FROM test_db.Persons"
+            mysql -h 127.0.0.1 -u root -p root test_db < sql-data/dummy.sql
+            mysql -h 127.0.0.1 -u root -p root --execute="SELECT * FROM covid-vaccination.Persons"
 workflows:
   build-deploy:
     jobs:
